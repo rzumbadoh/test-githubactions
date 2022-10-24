@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: public.ecr.aws/a1p3q7r0/alpine:3.12
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: step1
+      run: apk update \
+        &&  apk --no-cache add php7 php7-fpm php7-pgsql php7-pdo_pgsql php7-json php7-openssl php7-curl \
+        php7-zlib php7-xml php7-phar php7-intl php7-dom php7-xmlreader php7-ctype php7-iconv php7-simplexml php7-zip\
+        php7-mbstring php7-gd php7-xml php7-xmlwriter php7-tokenizer php7-session nginx supervisor curl php7-pdo php7-pdo_mysql php7-fileinfo
+
+
+    - name: step2
+      run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+      
+      
+
